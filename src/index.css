@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+input.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: white;
+  cursor: pointer;
+  margin-top: -6px; /* Aligns the thumb vertically */
+}
+
+input.slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: white;
+  cursor: pointer;
+}
+
+input.slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+}
+
+input.slider::-moz-range-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+}
+
+::selection {
+  background: #00000042;
+  color: rgb(255, 255, 255);
+}
