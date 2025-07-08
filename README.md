@@ -1,5 +1,3 @@
-Absolutely! Here's a **short, clean, and clear README** for your music streaming GitHub repo, without technical details:
-
 ---
 
 # 🎶 My Music Streaming Website
@@ -24,4 +22,3 @@ If you’d like to reach out, collaborate, or just say hi:
 ---
 
 Thanks for listening! 🎧
-
