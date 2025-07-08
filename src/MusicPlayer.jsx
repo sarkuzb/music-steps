@@ -73,6 +73,19 @@ const MusicPlayer = () => {
             onToggleMute={audioPlayer.toggleMute}
           />
 
+          {/* Search Input */}
+          {/* <div className="mb-8">
+            <div className="max-w-md mx-auto">
+              <input
+                type="text"
+                placeholder="Search tracks or artists..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all duration-200"
+              />
+            </div>
+          </div> */}
+
           <TrackList
             tracks={filteredTracks}
             musicLibrary={musicLibrary}
@@ -81,7 +94,7 @@ const MusicPlayer = () => {
             onLoadMore={() => setVisibleCount((prev) => prev + 9)}
             audioRef={audioPlayer.audioRef}
             isPlaying={audioPlayer.isPlaying}
-            setIsPlaying={(playing) => (audioPlayer.isPlaying = playing)}
+            setIsPlaying={audioPlayer.setIsPlaying}
             loadTrack={audioPlayer.loadTrack}
           />
 

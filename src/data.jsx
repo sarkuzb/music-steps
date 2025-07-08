@@ -12,6 +12,9 @@ import song10 from "./assets/something10.mp3";
 import song11 from "./assets/something11.mp3";
 import song12 from "./assets/something12.mp3";
 import song13 from "./assets/something13.mp3";
+import song14 from "./assets/something14.mp3";
+import song15 from "./assets/something15.mp3";
+import song16 from "./assets/something16.mp3";
 
 const musicLibrary = [
   {
@@ -78,6 +81,21 @@ const musicLibrary = [
     title: "Life Is Not A Game",
     artist: "Sarvar Khujamov",
     file: song13,
+  },
+  {
+    title: "Chill 1.0",
+    artist: "Sarvar Khujamov",
+    file: song14,
+  },
+  {
+    title: "Sabr",
+    artist: "Sarvar Khujamov",
+    file: song15,
+  },
+  {
+    title: "Harakatda",
+    artist: "Sarvar Khujamov",
+    file: song16,
   },
 ];
 
