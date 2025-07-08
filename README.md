@@ -1,5 +1,3 @@
----
-
 # 🎶 My Music Streaming Website
 
 Welcome! This is my personal music streaming platform where I upload and share the music I create. All tracks are original and made by me.
