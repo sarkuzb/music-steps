@@ -13,30 +13,28 @@ const TrackList = ({
   isPlaying,
   setIsPlaying,
   loadTrack,
+  onTogglePlay, // Add this prop
 }) => {
   const [openDropdown, setOpenDropdown] = useState(null);
+
   const handleTrackClick = (track) => {
     const actualIndex = musicLibrary.findIndex(
       (t) => t.title === track.title && t.artist === track.artist
     );
 
     if (actualIndex === currentTrackIndex) {
-      if (audioRef.current.paused) {
-        audioRef.current
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((err) => console.error("Playback error:", err));
-      } else {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      }
+      // If it's the same track, just toggle play/pause using the proper callback
+      onTogglePlay();
     } else {
+      // If it's a different track, load it
       loadTrack(actualIndex);
+
+      // Use setTimeout to wait for the track to load, then use onTogglePlay
       setTimeout(() => {
-        audioRef.current
-          ?.play()
-          .then(() => setIsPlaying(true))
-          .catch((err) => console.error("Playback error:", err));
+        // Only play if not already playing (to avoid double-play)
+        if (!isPlaying) {
+          onTogglePlay();
+        }
       }, 100);
     }
   };
@@ -46,18 +44,67 @@ const TrackList = ({
     setOpenDropdown(openDropdown === index ? null : index);
   };
 
-  const handleDownload = (track, event) => {
+  const handleDownload = async (track, event) => {
     event.stopPropagation(); // Prevent track selection when clicking download
 
-    // Create a temporary anchor element for download
-    const link = document.createElement("a");
-    link.href = track.src || track.url; // Assuming track has src or url property
-    link.download = `${track.artist} - ${track.title}.mp3`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    let audioUrl;
+    try {
+      audioUrl = track.src || track.url || track.file;
 
-    // Close dropdown after download
+      if (!audioUrl) {
+        console.error("No audio URL found for track:", track);
+        alert("Unable to download: No audio source found.");
+        setOpenDropdown(null);
+        return;
+      }
+
+      // Fetch the audio file as a blob
+      const response = await fetch(audioUrl);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+
+      // Create object URL from blob
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Get file extension from the original URL or default to mp3
+      let extension = "mp3";
+      try {
+        const urlPath = new URL(audioUrl).pathname;
+        const extractedExt = urlPath.split(".").pop().split("?")[0];
+        if (extractedExt && extractedExt.length <= 4) {
+          extension = extractedExt;
+        }
+      } catch (e) {
+        // If URL parsing fails, keep default extension
+        console.log("Could not parse URL for extension, using default mp3");
+      }
+
+      // Create download link
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${track.artist} - ${track.title}.${extension}`;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the object URL after a short delay
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
+    } catch (error) {
+      console.error("Download failed:", error);
+      console.error("Audio URL was:", audioUrl);
+      alert(
+        "Download failed. Please try again or check your internet connection."
+      );
+    }
+
+    // Close dropdown after download attempt
     setOpenDropdown(null);
   };
 
@@ -163,7 +210,7 @@ const TrackList = ({
         <div className="flex justify-center mt-8">
           <button
             onClick={onLoadMore}
-            className="font-light px-5 py-1 text-sm bg-white/10 text-white hover:bg-white/5 rounded-full transition-all cursor-pointer"
+            className="font-light px-5 py-1 text-sm bg-white/20 text-white hover:bg-white/5 rounded-full transition-all cursor-pointer"
           >
             Load More
           </button>
