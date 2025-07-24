@@ -10,13 +10,4 @@ I’ll keep updating it with new tracks, so feel free to check back anytime.
 
 ---
 
-## 📬 Contact
-
-If you’d like to reach out, collaborate, or just say hi:
-
-* Email: [your.email@example.com](mailto:your.email@example.com)
-* Instagram: [@yourhandle](https://instagram.com/yourhandle)
-
----
-
 Thanks for listening! 🎧
